@@ -17,7 +17,7 @@ function NavigationBar(){
                 </button>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
                     <div className="navbar-nav ms-auto py-0">
-                        
+                        <Link to="/inquery" className="nav-item nav-link">InqueryForm</Link>
                         <Link to="/contract" className="nav-item nav-link"> Contract </Link>                        
                         
 

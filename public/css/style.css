@@ -99,6 +99,10 @@
 .b-light{
     background-color: #1D2A4D !important;
 }
+.bg1-light{
+    background-color: dodgerblue;
+}
+
 
 .hero-header {
     background: url(../img/hero.jpg) top right no-repeat;

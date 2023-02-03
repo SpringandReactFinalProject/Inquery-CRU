@@ -1,9 +1,70 @@
-import { useState } from "react";
 import {addNewContract} from "./contractSlice"
+import { useDispatch} from "react-redux";
+import { useState } from "react";
+//import { useParams,useNavigate } from "react-router-dom";
+//import { getToken } from "../auth/authSlice";
+
+
 function AddContractForm() {
 
+    //const contract = useSelector((state)=>selectProjectByIdentifier(state,String(contractId))) 
+
+    
+    const [appointmentId,setAppointmentId] = useState('');
+    const [caseId,setCaseId] = useState('');
+    const [contractDate,setContractDate] = useState('');
+    const [conDescription,setConDescription] = useState('');
+    const [addRequestStatus,setAddRequestStatus] = useState('idle')
+    
+    const onAppointmentIdChange = e => setAppointmentId(e.target.value);
+    const onCaseIdChange = e => setCaseId(e.target.value);
+    const onContractDateChange = e => setContractDate(e.target.value);
+    const onConDescriptionChange = e => setConDescription(e.target.value);
     
 
+    const canSave = [appointmentId,caseId,contractDate,conDescription].every(Boolean) && addRequestStatus === 'idle'
+   // const token = useSelector(getToken)
+
+    const dispatch = useDispatch();
+    
+    const onSubmit = (event)=>{
+        event.preventDefault();
+        //console.log(token)
+
+        if(canSave){
+            try {
+
+                setAddRequestStatus('pending');
+
+                dispatch(
+                    
+                    addNewContract({
+                        contract:{
+                            appointmentId,
+                            caseId,
+                            contractDate,
+                            conDescription,
+                        }//,
+                        //token
+                    }),
+                ).unwrap();
+
+               
+                
+            } catch (error) {
+                console.log(error)
+            }finally{
+                setAddRequestStatus('idle')
+            }
+           
+
+        setAppointmentId('')
+        setCaseId('')
+        setContractDate('')
+        setConDescription('')
+        
+        }
+    }
     
 
     return (
@@ -19,13 +80,14 @@ function AddContractForm() {
                         <h1 className="text-primary text-center mb-4">Make Contract</h1>
                         <div className="b-light text-center rounded p-5">
 
-                            <form >
+                        <form onSubmit={onSubmit}>
                                 <div className="row g-3">
                                     <div className="col-12 col-sm-6">
                                         <div className="Date" id="date" data-target-input="nearest">
                                             <input type="text"
                                                 className="form-control text-primary bg-white border-0 datetimepicker-input"
-                                                name="appointmentId"
+                                                value={appointmentId}
+                                                onChange={onAppointmentIdChange}
                                                 placeholder="Appointment Id" data-target="#date" data-toggle="datetimepicker" />
                                         </div>
                                     </div>
@@ -33,7 +95,8 @@ function AddContractForm() {
                                     <div className="Date" id="date" data-target-input="nearest">
                                             <input type="text"
                                                 className="form-control text-primary bg-white border-0 datetimepicker-input"
-                                                name="caseId"
+                                                value={caseId}
+                                                onChange={onCaseIdChange}
                                                 placeholder="Case Id" data-target="#date" data-toggle="datetimepicker" />
                                         </div>
                                     </div>
@@ -41,7 +104,8 @@ function AddContractForm() {
                                     <div className="col-12 col-sm-6">
                                         <div className="date" id="date" data-target-input="nearest">
                                             <input type="date"
-                                                name="contractDate"
+                                                value={contractDate}
+                                                onChange={onContractDateChange}
                                                 className="form-control text-primary bg-white border-0 datetimepicker-input"
                                                 placeholder="Date" data-target="#date" data-toggle="datetimepicker" />
                                         </div>
@@ -51,12 +115,19 @@ function AddContractForm() {
                                         <textarea type="text"
                                             className="form-control text-primary bg-white border-0 datetimepicker-input"
                                             rows={10}
-                                            name="conDescription"
+                                            value={conDescription}
+                                            onChange={onConDescriptionChange}
                                             placeholder="Contract Description" data-target="#time" data-toggle="datetimepicker" />
 
                                     </div>
                                     <div className="col-12">
-                                        <button className="btn btn-primary w-100 py-3" type="submit">Make A Contract</button>
+                                            <input 
+                                            type="submit" 
+                                            className="btn btn-primary w-100 py-3" 
+                                            disabled={!canSave}
+                                            value={'Make A Contract'}
+                                            />
+                                        
                                     </div>
                                 </div>
                             </form>
