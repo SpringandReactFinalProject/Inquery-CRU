@@ -9,11 +9,15 @@ export const fetchInquery = createAsyncThunk('inquerys/fetchInquery', async () =
     return response.data;
 });
 
-export const addNewInquery = createAsyncThunk('inquerys/addNewInquery', async (data) => {
+export const addNewInquery = createAsyncThunk('inquerys/addNewInquery', async(inquery)=>{
+    const response = await axios.post(POST_NEW_INQUERY,inquery)
+    return response.data;
+})
 
-    const response = await axios.post(POST_NEW_INQUERY, data.inquery)
+export const updateInquery= createAsyncThunk('inquerys/updateInquery',async (data) => {
+    const response = await axios.post(POST_NEW_INQUERY,data);
     return response.data
-});
+ })
 
 const initialState = {
     inquerys: [],
@@ -21,6 +25,7 @@ const initialState = {
     error: null
 }
 export const inquerySlice = createSlice({
+    
     name: "inquerys",
     initialState,
     reducers: {
@@ -28,13 +33,13 @@ export const inquerySlice = createSlice({
             reducer(state, action) {
                 state.push(action.payload);
             },
-            prepare( userId, phoneNo, lawyerName, description) {
+            prepare( id,phoneNo, lawyerName, description) {
                 return {
-                    payload: {
-                        userId,
+                    payload:{
+                        id,
                         phoneNo,
                         lawyerName,
-                        description
+                        description 
                     }
                 }
             },
@@ -57,12 +62,27 @@ export const inquerySlice = createSlice({
             .addCase(addNewInquery.fulfilled,(state,action)=>{
                 state.inquerys.push(action.payload)
             })
+            .addCase(updateInquery.fulfilled, (state, action) => {
+
+                const inquery = action.payload
+                
+
+                const inquerys = state.inquerys.filter(inq => inq.id !== inquery.id)
+
+                state.inquerys = [inquery, ...inquerys]
+
+
+            })
     }
 });
 
 export const selectAllInquery = (state) => state.inquerys.inquerys
 export const getInqueryStatus = (state) => state.inquerys.status
 export const getInqueryError = (state) => state.inquerys.error
+export const selectInqueryById = (state, inqueryId) => state.inquerys.inquerys.find(inquery => inquery.id === inqueryId)
+
+
+
 export const { addInquery} = inquerySlice.actions;
 
 export default inquerySlice.reducer

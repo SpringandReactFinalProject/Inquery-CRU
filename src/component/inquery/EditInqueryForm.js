@@ -1,21 +1,32 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addNewInquery } from "./inquerySlice";
+import { useDispatch,useSelector } from "react-redux";
 
-function  AddInqueryForm(props){
-  
-    const [phoneNo, setPhoneNo] = useState('');
-    const [lawyerName, setLawyerName] = useState('');
-    const [description, setDescription] = useState('')
-    const [addRequestStatus, setAddRequestStatus] = useState('idle')
+import { useParams } from "react-router-dom";
+import { selectInqueryById, updateInquery } from "./inquerySlice";
+function EditInqueryForm(props){
 
-    const onPhoneNoChange = e => setPhoneNo(e.target.value);
+    const { inqueryId } = useParams( )
+    const inquery = useSelector((state)=>selectInqueryById(state,Number(inqueryId))) 
+    console.log(inqueryId)
+    console.log(inquery)
+
+    const [id,setId] = useState(inquery?.id);
+    
+
+    const [lawyerName,setLawyerName] = useState(inquery?.lawyerName);
+    const [phoneNo,setPhoneNo] = useState(inquery?.phoneNo)
+    const [description,setDescription] = useState(inquery?.description);
+    const [addRequestStatus,setAddRequestStatus]= useState('idle')
+
+     
+    
     const onLawyerNameChange = e => setLawyerName(e.target.value);
+    const onPhoneNoChange = e => setPhoneNo(e.target.value);
     const onDescriptionChange = e => setDescription(e.target.value);
- 
-   const canSave = [ phoneNo, lawyerName, description].every(Boolean) && addRequestStatus === 'idle'
 
-    //const isEdit = props.mode === 'edit'
+
+    const canSave = [ lawyerName,phoneNo,description].every(Boolean) && addRequestStatus === 'idle'
+   
 
     const dispatch = useDispatch();
 
@@ -29,31 +40,33 @@ function  AddInqueryForm(props){
                 console.log("In the can save")
 
                 dispatch(
-                    addNewInquery({
-                        phoneNo,
+                   
+                   updateInquery({
+                        id,
                         lawyerName,
+                        phoneNo,
                         description
-        
-                }),
-                    ).unwrap();
-                
-            } catch (error) {
+
+                    }),
+                )
+            }                
+             catch (error) {
                 console.log(error)
                 
             }finally{
                 setAddRequestStatus('idle')
             }
 
-            setPhoneNo('')
+            setId('')
             setLawyerName('')
+            setPhoneNo('')
             setDescription('')
-       
            }
            console.log(canSave)
         
         }
-    return (
-        <div className="container-fluid bg-primary py-5">
+        return(
+            <div className="container-fluid bg-primary py-5">
 
             <div className="container">
                 <div className="row gx-5">
@@ -131,7 +144,6 @@ function  AddInqueryForm(props){
             </div>
 
         </div>
-    );
+        );
 }
-export default AddInqueryForm;
-
+export default EditInqueryForm;

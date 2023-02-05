@@ -25,7 +25,7 @@ function InqueryList(){
             content = inquerys.map(
                 (inquery) => (
                     <InqueryItem
-                        userId={inquery.userId}
+                        id={inquery.id}
                         phoneNo={inquery.phoneNo}
                         lawyerName={inquery.lawyerName}
                         description={inquery.description}

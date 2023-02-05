@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 
 function InqueryItem(props) {
+   
     return (
 
             
@@ -9,15 +11,17 @@ function InqueryItem(props) {
                         {/* <div className="service-icon mb-4">
                         <i class="fa-solid fa-user"></i>
                         </div> */}
+                        <h6 className="mb-3">Id: {props.id}</h6>
                         <h4 className="mb-3">Lawyer: {props.lawyerName}</h4>
-                        <h4 className="mb-3">User: {props.userId}</h4>
                         <h6 className="mb-3">User PhoneNo: {props.phoneNo}</h6>
                         <p className="m-0">{props.description}</p>
                         <div className="my-3">
+                        <Link to={`/inquery/edit/${props.id}`}>
                             <button className="btn btn-success mx-3">Update</button>
+                        </Link>
                             <button className="btn btn-danger">Delete</button>
                         </div>
-                        <a className="btn btn-lg btn-primary rounded-pill" href="">
+                        <a className="btn btn-lg btn-primary rounded-pill">
                             <i className="bi bi-arrow-right"></i>
                         </a>
                     </div>

@@ -17,7 +17,13 @@ function NavigationBar(){
                 </button>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
                     <div className="navbar-nav ms-auto py-0">
-                        <Link to="/inquery" className="nav-item nav-link">InqueryForm</Link>
+                        <div className="nav-item dropdown">
+                            <Link to="/inquery" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Inquery</Link>
+                            <div className="dropdown-menu m-0">
+                                <Link to="/inquery" className="text-primary dropdown-item">Inquiry</Link>
+                                <Link to="/inquery/list" className="text-primary dropdown-item">Inquiry List</Link>
+                            </div>
+                        </div>
                         <Link to="/contract" className="nav-item nav-link"> Contract </Link>                        
                         
 
