@@ -24,6 +24,13 @@ function NavigationBar(){
                                 <Link to="/inquery/list" className="text-primary dropdown-item">Inquiry List</Link>
                             </div>
                         </div>
+                        <div className="nav-item dropdown">
+                            <Link to="/appointment" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Appointment</Link>
+                            <div className="dropdown-menu m-0">
+                                <Link to="/appointment" className="text-primary dropdown-item">Appointment</Link>
+                                <Link to="/appointment/list" className="text-primary dropdown-item">Appointment List</Link>
+                            </div>
+                        </div>
                         <Link to="/contract" className="nav-item nav-link"> Contract </Link>                        
                         
 
