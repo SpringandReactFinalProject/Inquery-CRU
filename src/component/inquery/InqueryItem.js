@@ -1,7 +1,35 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Backdrop from "../utility/BackDrop";
+import ConfirmModal from "../utility/ConfirmModal";
+import { deleteInquery } from "./inquerySlice";
 
 function InqueryItem(props) {
    
+    console.log(props.id);
+
+    const [isModalOpen,setModalOpen] = useState(false)
+    const dispatch = useDispatch();
+
+    function deleteHandler(){
+        setModalOpen(true);
+    }
+
+    function backdropHandler(){
+        setModalOpen(false);
+    }
+
+    function cancelHandler(){
+        setModalOpen(false);
+    }
+
+    function confirmHandler(){
+        dispatch(deleteInquery({inqueryId:props.id})).unwrap()
+
+        setModalOpen(false)
+    }
+
     return (
 
             
@@ -19,7 +47,13 @@ function InqueryItem(props) {
                         <Link to={`/inquery/edit/${props.id}`}>
                             <button className="btn btn-success mx-3">Update</button>
                         </Link>
-                            <button className="btn btn-danger">Delete</button>
+                        <Link onClick={deleteHandler}>
+                            <button className="btn btn-danger mx-3">
+                                Delete
+                            </button>
+                        </Link>
+                        {isModalOpen && <ConfirmModal onCancel={cancelHandler} onConfirm={confirmHandler}/>}
+                        {isModalOpen && <Backdrop onBackdrop={backdropHandler}/>} 
                         </div>
                         <a className="btn btn-lg btn-primary rounded-pill">
                             <i className="bi bi-arrow-right"></i>

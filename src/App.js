@@ -1,5 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import Card from "./component/card/card";
+import AddAppointmentForm from "./component/appointment/AddAppointmentForm";
+import EditAppointmentForm from "./component/appointment/EditAppointmentForm";
+import AppCard from "./component/card/AppCard";
+import Card from "./component/card/Card";
 import AddContractForm from "./component/contract/AddContractForm";
 import Footer from "./component/footer/Footer";
 import AddInqueryForm from "./component/inquery/AddInqueryForm";
@@ -19,6 +22,13 @@ function App() {
           <Route path="edit/:inqueryId" element={<EditInqueryForm />} />
         </Route>
         <Route path='/contract' element={<AddContractForm />} />
+
+        <Route path="/appointment" element={<AddAppointmentForm />}/>
+          <Route path="/appointment">
+            <Route path="list" element={<AppCard />}/>
+            <Route path="edit/:appointmentId" element={<EditAppointmentForm />} />
+          </Route>
+        
      
       </Routes>
       <Footer />

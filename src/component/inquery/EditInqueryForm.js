@@ -131,7 +131,7 @@ function EditInqueryForm(props){
                                             type="submit" 
                                             className="btn btn-primary w-100 py-3" 
         
-                                            value={'Make A Inquery'}
+                                            value={'Update A Inquery'}
                                             />
                                             
                                     </div>

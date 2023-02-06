@@ -3,6 +3,7 @@ import axios from "axios";
 
 const GET_ALL_INQUERY = "http://localhost:8585/api/inquery/all";
 const POST_NEW_INQUERY = "http://localhost:8585/api/inquery/create";
+const DELETE_INQUERY = "http://localhost:8585/api/inquery/id/";
 
 export const fetchInquery = createAsyncThunk('inquerys/fetchInquery', async () => {
     const response = await axios.get(GET_ALL_INQUERY);
@@ -18,6 +19,13 @@ export const updateInquery= createAsyncThunk('inquerys/updateInquery',async (dat
     const response = await axios.post(POST_NEW_INQUERY,data);
     return response.data
  })
+
+ export const deleteInquery = createAsyncThunk('inquerys/deleteInquery', async (data) => {
+    await axios.delete(`${DELETE_INQUERY}${data.inqueryId}`)
+    const response = await axios.get(GET_ALL_INQUERY);
+     
+    return response.data
+});
 
 const initialState = {
     inquerys: [],
@@ -72,6 +80,16 @@ export const inquerySlice = createSlice({
                 state.inquerys = [inquery, ...inquerys]
 
 
+            })
+            // .addCase(deleteInquery.fulfilled,(state,action)=>{
+            //     const inquerys = state.inquerys.filter(inq => inq.id !== Number(action.payload))
+        
+            //     state.inquerys = inquerys
+        
+            // })
+            .addCase(deleteInquery.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.inquerys = action.payload
             })
     }
 });
